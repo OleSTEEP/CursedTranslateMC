@@ -2,6 +2,8 @@
 
 import json
 import deep_translator.exceptions
+from datetime import datetime
+from memory_profiler import memory_usage
 from deep_translator import GoogleTranslator
 
 # Options
@@ -76,6 +78,7 @@ def finalize():
 
 
 if __name__ == "__main__":
+    start_time = datetime.now()
     print("[INFO] Starting...")
 
     result = {}
@@ -90,6 +93,7 @@ if __name__ == "__main__":
                                                            key_name))
     except KeyboardInterrupt:
         print("[INFO] Stopped by user!")
+    ram_used = round(memory_usage()[0])
 
     print("[INFO] Saving to file...")
     create_json()
@@ -99,4 +103,4 @@ if __name__ == "__main__":
 
     print("[INFO] Finalizing...")
     finalize()
-    print("[INFO] Done!")
+    print("[INFO] Done! ({}) (RAM - {}MB)".format(datetime.now() - start_time, ram_used))
