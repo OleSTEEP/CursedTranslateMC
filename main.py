@@ -81,12 +81,15 @@ if __name__ == "__main__":
     result = {}
     data = read_lang_file()
     print("[INFO] Started. The process can take a long time!")
-    for key_name in data:
-        value = data[key_name]
-        result[key_name] = translate(key_name, value)
-        print(
-            '[INFO] Progress: {}% ({}/{}) ({})'.format((len(result) * 100) // len(data), len(result), len(data),
-                                                       key_name))
+    try:
+        for key_name in data:
+            value = data[key_name]
+            result[key_name] = translate(key_name, value)
+            print(
+                '[INFO] Progress: {}% ({}/{}) ({})'.format((len(result) * 100) // len(data), len(result), len(data),
+                                                        key_name))
+    except KeyboardInterrupt:
+        print("[INFO] Stopped by user!")
 
     print("[INFO] Saving to file...")
     create_json()
