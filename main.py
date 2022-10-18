@@ -39,7 +39,17 @@ def create_json():
 
 
 def translate(string):
-    if method != "new":
+    if method == "new":
+        for a in range(pass_number):
+            try:
+                pass1 = GoogleTranslator(source='auto', target=temp_lang).translate(text=string)
+                pass2 = GoogleTranslator(source='auto', target=target_lang).translate(text=pass1)
+                pass3 = GoogleTranslator(source='auto', target=temp_lang2).translate(text=pass2)
+                string = GoogleTranslator(source='auto', target=target_lang).translate(text=pass3)
+            except deep_translator.exceptions.NotValidPayload:
+                return string
+        return string
+    else:
         locale = GoogleTranslator(source='auto', target="ru").translate(text=string)
         try:
             encoded_text = locale.encode("utf-8").decode(charset)
@@ -49,16 +59,6 @@ def translate(string):
         except deep_translator.exceptions.NotValidPayload:
             return string
         string = GoogleTranslator(source='auto', target=target_lang).translate(text=encoded_text)
-        return string
-    else:
-        for a in range(pass_number):
-            try:
-                pass1 = GoogleTranslator(source='auto', target=temp_lang).translate(text=string)
-                pass2 = GoogleTranslator(source='auto', target=target_lang).translate(text=pass1)
-                pass3 = GoogleTranslator(source='auto', target=temp_lang2).translate(text=pass2)
-                string = GoogleTranslator(source='auto', target=target_lang).translate(text=pass3)
-            except deep_translator.exceptions.NotValidPayload:
-                return string
         return string
 
 
