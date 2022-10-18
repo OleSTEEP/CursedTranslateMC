@@ -54,10 +54,10 @@ def translate(string):
         try:
             encoded_text = locale.encode("utf-8").decode(charset)
         except UnicodeDecodeError:
-            print("[ERROR] UnicodeDecodeError => Skip encoding")
+            print("[ERROR] UnicodeDecodeError => Skipping encoding")
             encoded_text = locale
         except AttributeError:
-            print("[ERROR] Failed to encode text (AttributeError) => Skip encoding")
+            print("[ERROR] Failed to encode text (AttributeError) => Skipping translate")
             return string
         string = GoogleTranslator(source='auto', target=target_lang).translate(text=encoded_text)
         return string
