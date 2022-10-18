@@ -38,7 +38,7 @@ def create_json():
     file.close()
 
 
-def translate(string):
+def translate(key, string):
     if method == "new":
         for a in range(pass_number):
             try:
@@ -54,10 +54,10 @@ def translate(string):
         try:
             encoded_text = locale.encode("utf-8").decode(charset)
         except UnicodeDecodeError:
-            print("[ERROR] UnicodeDecodeError => Skipping encoding")
+            print("[ERROR] ({}) UnicodeDecodeError => Skipping encoding".format(key))
             encoded_text = locale
         except AttributeError:
-            print("[ERROR] Failed to encode text (AttributeError) => Skipping translate")
+            print("[ERROR] ({}) Failed to encode text (AttributeError) => Skipping translate".format(key))
             return string
         string = GoogleTranslator(source='auto', target=target_lang).translate(text=encoded_text)
         return string
@@ -81,11 +81,12 @@ if __name__ == "__main__":
     result = {}
     data = read_lang_file()
     print("[INFO] Started. The process can take a long time!")
-    for name in data:
-        value = data[name]
-        result[name] = translate(value)
+    for key_name in data:
+        value = data[key_name]
+        result[key_name] = translate(key_name, value)
         print(
-            '[INFO] Progress: {}% ({}/{}) ({})'.format((len(result) * 100) // len(data), len(result), len(data), name))
+            '[INFO] Progress: {}% ({}/{}) ({})'.format((len(result) * 100) // len(data), len(result), len(data),
+                                                       key_name))
 
     print("[INFO] Saving to file...")
     create_json()
