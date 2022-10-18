@@ -56,7 +56,8 @@ def translate(string):
         except UnicodeDecodeError:
             print("[ERROR] UnicodeDecodeError => Skip encoding")
             encoded_text = locale
-        except deep_translator.exceptions.NotValidPayload:
+        except AttributeError:
+            print("[ERROR] Failed to encode text (AttributeError) => Skip encoding")
             return string
         string = GoogleTranslator(source='auto', target=target_lang).translate(text=encoded_text)
         return string
