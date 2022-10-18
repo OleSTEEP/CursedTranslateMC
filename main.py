@@ -1,6 +1,7 @@
 #!/bin/python3
 
 import json
+import deep_translator.exceptions
 from deep_translator import GoogleTranslator
 
 # Options
@@ -14,7 +15,7 @@ file_name = f"{lang_code}.json"
 method = "new"  # (new, cursed)
 temp_lang = "zh-TW"  # (Only for new method)
 temp_lang2 = "zh-CN"  # (Only for new method)
-pass_number = 3  # (Only for new method)
+pass_number = 1  # (Only for new method)
 charset = "gbk"  # shift_jis, euc_rk, big5, gbk, ... (only for cursed method)
 # ----------------------------
 
@@ -45,14 +46,19 @@ def translate(string):
         except UnicodeDecodeError:
             print("[ERROR] UnicodeDecodeError => Skip encoding")
             encoded_text = locale
+        except deep_translator.exceptions.NotValidPayload:
+            return string
         string = GoogleTranslator(source='auto', target=target_lang).translate(text=encoded_text)
         return string
     else:
         for a in range(pass_number):
-            pass1 = GoogleTranslator(source='auto', target=temp_lang).translate(text=string)
-            pass2 = GoogleTranslator(source='auto', target=target_lang).translate(text=pass1)
-            pass3 = GoogleTranslator(source='auto', target=temp_lang2).translate(text=pass2)
-            string = GoogleTranslator(source='auto', target=target_lang).translate(text=pass3)
+            try:
+                pass1 = GoogleTranslator(source='auto', target=temp_lang).translate(text=string)
+                pass2 = GoogleTranslator(source='auto', target=target_lang).translate(text=pass1)
+                pass3 = GoogleTranslator(source='auto', target=temp_lang2).translate(text=pass2)
+                string = GoogleTranslator(source='auto', target=target_lang).translate(text=pass3)
+            except deep_translator.exceptions.NotValidPayload:
+                return string
         return string
 
 
