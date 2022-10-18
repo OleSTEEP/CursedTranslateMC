@@ -1,0 +1,13 @@
+{
+   "pack": {
+      "pack_format": 9,
+      "description": "By OleSTEEP"
+   },
+   "language": {
+      "ru_cu": {
+         "name": "CursedTranslateMC",
+         "region": "Russian",
+         "bidirectional": false
+      }
+   }
+}

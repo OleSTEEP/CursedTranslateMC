@@ -87,7 +87,7 @@ if __name__ == "__main__":
             result[key_name] = translate(key_name, value)
             print(
                 '[INFO] Progress: {}% ({}/{}) ({})'.format((len(result) * 100) // len(data), len(result), len(data),
-                                                        key_name))
+                                                           key_name))
     except KeyboardInterrupt:
         print("[INFO] Stopped by user!")
 
