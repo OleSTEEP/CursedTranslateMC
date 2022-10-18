@@ -43,6 +43,7 @@ def translate(string):
         try:
             encoded_text = locale.encode("utf-8").decode(charset)
         except UnicodeDecodeError:
+            print("[ERROR] UnicodeDecodeError => Skip encoding")
             encoded_text = locale
         string = GoogleTranslator(source='auto', target=target_lang).translate(text=encoded_text)
         return string
